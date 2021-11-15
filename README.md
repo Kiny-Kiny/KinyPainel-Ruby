@@ -4,7 +4,7 @@
 
 <p align="center" ><img alt="Kiny-Painel" src="https://raw.githubusercontent.com/MicaelliMedeiros/micaellimedeiros/master/image/computer-illustration.png"></p>
 
-<h1 align="center">Kiny-Painel (BETA)</h1>
+<h1 align="center">KinyPainel-Ruby 1.1 (BETA)</h1>
 <p align="center">
   <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/Kiny-Kiny/KinyPainel-Ruby">
   <img alt="Latest version" src="https://img.shields.io/github/v/release/Kiny-Kiny/KinyPainel-Ruby.svg" alt="Latest version">
