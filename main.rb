@@ -5,9 +5,6 @@ require (
 require (
   "json"
 )
-require(
-  'rbconfig'
-)
 # Variáveis de corss.
 Vermelho="\033[1;31m";Azul="\033[1;34m";Branco="\033[1;37m";Verde="\033[1;32m"
 # Função para limpar terminal.
