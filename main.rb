@@ -128,7 +128,7 @@ logo+="\n #{Azul}Pix #{Branco}: (21) 97918-0533\n"
 Sair=false
 while(Sair==false) do
   clear()
-  print "#{logo}\n#{Azul}===========================#{Branco}\n[ #{Azul}1#{Branco} ] Consulta de Nome\n[ #{Azul}2#{Branco} ] Consulta de CPF\n[ #{Azul}3#{Branco} ] Consulta de CNS\n[ #{Azul}4#{Branco} ] Consulta de Telefone\n#{Azul}==========================#{Branco}\n[ #{Verde}99#{Branco} ] Atualizar\n[ #{Vermelho}00#{Branco} ] Sair\n#{Azul}>>> #{Verde}"
+  print "#{logo}#{Azul}===========================#{Branco}\n[ #{Azul}1#{Branco} ] Consulta de Nome\n[ #{Azul}2#{Branco} ] Consulta de CPF\n[ #{Azul}3#{Branco} ] Consulta de CNS\n[ #{Azul}4#{Branco} ] Consulta de Telefone\n#{Azul}==========================#{Branco}\n[ #{Verde}99#{Branco} ] Atualizar\n[ #{Vermelho}00#{Branco} ] Sair\n#{Azul}>>> #{Verde}"
   option=gets.chomp
   clear()
   case option
