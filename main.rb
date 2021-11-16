@@ -9,7 +9,7 @@ require(
   'rbconfig'
 )
 # Variáveis de corss.
-Vermelho='\033[1;31m';Azul='\033[1;34m';Branco='\033[1;37m';Verde='\033[1;32m'
+Vermelho="\033[1;31m";Azul="\033[1;34m";Branco="\033[1;37m";Verde="\033[1;32m"
 # Função para limpar terminal.
 def clear()
   Gem.win_platform? ? (system "cls") : (system "clear")
@@ -21,7 +21,7 @@ def requests(url)
 end
 # Funções de consulta.
 def nome(logo)
-  print "%s\n%sDigite o nome-completo que deseja buscar %s>>> "%[logo,Branco, Verde]
+  print "#{logo}\n{Branco}Digite o nome-completo que deseja buscar #{Verde}>>> "
   cons=gets.chomp.to_s
   begin
     result=requests("http://ghostcenter.xyz/api/nome/%s"%cons.gsub(" ","%20"))
@@ -54,7 +54,7 @@ def telefone(logo)
         msg=msg+"\n%sNome%s - %s\n%sCPF%s - %s\n%sTipo%s - %s\n%sOperadora%s - %s\n"%[Azul,Branco,i['nome'],Azul,Branco,i['cpf_cnpj'],Azul,Branco,i['tipo'],Azul,Branco,i['operadora']]
       end
     rescue Exception
-      msg="\n%s< %sTELEFONE NÃO ENCONTRADO %s>%s\n"%[Vermelho,Branco,Vermelho,Branco]
+      msg="\n#{Vernelho}< #{Branco}TELEFONE NÃO ENCONTRADO #{Vermelho}>#{Branco}\n"
     end
   rescue Exception
     msg="\n%s<%s API OFFLINE OU SERVIDOR FORA DO AR %s>\n%s"%[Vermelho,Branco,Vermelho,Branco]
@@ -76,11 +76,11 @@ def cpf(logo)
       begin
         for c in result["dados"]
           c.each do | i |
-            msg+="%s%s%s - %s\n"%[Azul,i[0].upcase,Branco,i[1]]
+            msg+="#{Azul}%s#{Branco} - %s\n"%[i[0].upcase,i[1]]
           end
         end
       rescue Exception
-        msg="\n%s<%s CPF NÃO ENCONTRADO %s>%s\n"%[Vermelho,Branco,Vermelho,Branco]
+        msg="\n#{Vermelho}<#{Branco} CPF NÃO ENCONTRADO #{Vermelho}>#{Branco}\n"
       end
     rescue Exception
       msg="\n%s<%s API OFFLINE OU SERVIDOR FORA DO AR %s>%s\n"%[Vermelho,Branco,Vermelho,Branco]
@@ -92,7 +92,7 @@ def cpf(logo)
 end
 
 def cns(logo)
-  print "%s\n%s Digite o CNS que irá consultar %s>>> "%[logo,Branco,Verde]
+  print "#{logo}\n#{Branco} Digite o CNS que irá consultar #{Verde}>>> "
   op=gets.chomp.to_s
   if op.length !=15
     msg="%s<%s FORMATO INVÁLIDO %s>%s"%[Vermelho,Branco,Vermelho,Branco]
@@ -119,18 +119,19 @@ def cns(logo)
 end
 
 # Banner.
-logo='%s  __  __     __     __   __     __  __    
+logo='  __  __     __     __   __     __  __    
  /\ \/ /    /\ \   /\ "-.\ \   /\ \_\ \   
  \ \  _"-.  \ \ \  \ \ \-.  \  \ \____ \  
   \ \_\ \_\  \ \_\  \ \_\\"\_\   \/\_____\ 
-   \/_/\/_/   \/_/   \/_/ \/_/   \/_____/ %s'%[Azul,Branco]
-logo+="\n %sPix %s: (21) 97918-0533\n"%[Azul,Branco]
+   \/_/\/_/   \/_/   \/_/ \/_/   \/_____/ '
+logo="#{Azul}#{logo}#{Branco}"
+logo+="\n #{Azul}Pix #{Branco}: (21) 97918-0533\n"
 
 # Loop para manter o menu rodando.
 Sair=false
 while(Sair==false) do
   clear()
-  print( "%s\n%s===========================%s\n[ %s1%s ] Consulta de Nome\n[ %s2%s ] Consulta de CPF\n[ %s3%s ] Consulta de CNS\n[ %s4%s ] Consulta de Telefone\n%s==========================%s\n[ %s99%s ] Atualizar\n[ %s00%s ] Sair\n%s>>> %s"%[logo,Azul,Branco,Azul,Branco,Azul,Branco,Azul,Branco,Azul,Branco,Azul,Branco,Verde,Branco,Vermelho,Branco,Azul,Verde])
+  print "#{logo}\n#{Azul}===========================#{Branco}\n[ #{Azul}1#{Branco} ] Consulta de Nome\n[ #{Azul}2#{Branco} ] Consulta de CPF\n[ #{Azul}3#{Branco} ] Consulta de CNS\n[ #{Azul}4#{Branco} ] Consulta de Telefone\n#{Azul}==========================#{Branco}\n[ #{Verde}99#{Branco} ] Atualizar\n[ #{Vermelho}00#{Branco} ] Sair\n#{Azul}>>> #{Verde}"
   option=gets.chomp
   clear()
   case option
