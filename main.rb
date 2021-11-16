@@ -1,3 +1,4 @@
+# Bem, o recode do painel em outra lang tá pronto. Vou só adicionar o resto das API's:)
 # Módulos
 require (
   "rest-client"
@@ -114,6 +115,13 @@ def cns(logo)
   print "%s%s\n%s<%s APERTE ENTER PARA RETORNAR AO MENU %s>%s"%[logo,msg,Azul,Branco,Azul,Branco]
   return gets.chomp
 end
+# Forma de pegar o endereço de IP.
+begin
+  ip=requests("http://ipwhois.app/json/")["ip"]
+rescue Exception
+  puts "%s!%s VERIFIQUE SUA CONEXÃO À INTERNET %s!%s"%[Vermelho,Branco,Vermelho,Branco]
+  exit
+end
 
 # Banner.
 logo='  __  __     __     __   __     __  __    
@@ -122,13 +130,13 @@ logo='  __  __     __     __   __     __  __
   \ \_\ \_\  \ \_\  \ \_\\"\_\   \/\_____\ 
    \/_/\/_/   \/_/   \/_/ \/_/   \/_____/ '
 logo="#{Azul}#{logo}#{Branco}"
-logo+="\n #{Azul}Pix #{Branco}: (21) 97918-0533\n"
+logo+="\n #{Azul}Pix #{Branco}: (21) 97918-0533\nSeu Endereço de IP: %s%s%s\n"%[Azul,ip,Branco]
 
 # Loop para manter o menu rodando.
 Sair=false
 while(Sair==false) do
   clear()
-  print "#{logo}#{Azul}===========================#{Branco}\n[ #{Azul}1#{Branco} ] Consulta de Nome\n[ #{Azul}2#{Branco} ] Consulta de CPF\n[ #{Azul}3#{Branco} ] Consulta de CNS\n[ #{Azul}4#{Branco} ] Consulta de Telefone\n#{Azul}==========================#{Branco}\n[ #{Verde}99#{Branco} ] Atualizar\n[ #{Vermelho}00#{Branco} ] Sair\n#{Azul}>>> #{Verde}"
+  print "#{logo}\n#{Azul}===========================#{Branco}\n[ #{Azul}1#{Branco} ] Consulta de Nome\n[ #{Azul}2#{Branco} ] Consulta de CPF\n[ #{Azul}3#{Branco} ] Consulta de CNS\n[ #{Azul}4#{Branco} ] Consulta de Telefone\n#{Azul}==========================#{Branco}\n[ #{Verde}99#{Branco} ] Atualizar\n[ #{Vermelho}00#{Branco} ] Sair\n#{Azul}>>> #{Verde}"
   option=gets.chomp
   clear()
   case option
