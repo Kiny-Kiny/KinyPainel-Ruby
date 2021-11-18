@@ -1,10 +1,12 @@
-# Bem, o recode do painel em outra lang tá pronto. Vou só adicionar o resto das API's:)
 # Módulos
 require (
   "rest-client"
 )
 require (
   "json"
+)
+require(
+  'rbconfig'
 )
 # Variáveis de corss.
 Vermelho="\033[1;31m";Azul="\033[1;34m";Branco="\033[1;37m";Verde="\033[1;32m"
@@ -14,12 +16,11 @@ def clear()
 end
 # Função para fazer requisições get e converter elas para json.
 def requests(url)
-  response=RestClient.get(url)
-  return JSON.parse(response.body)
+  return JSON.parse(RestClient.get(url).body)
 end
 # Funções de consulta.
 def nome(logo)
-  print "#{logo}\n{Branco}Digite o nome-completo que deseja buscar #{Verde}>>> "
+  print "#{logo}\n#{Branco}Digite o nome-completo que deseja buscar #{Verde}>>> "
   cons=gets.chomp.to_s
   begin
     result=requests("http://ghostcenter.xyz/api/nome/%s"%cons.gsub(" ","%20"))
@@ -77,6 +78,7 @@ def cpf(logo)
             msg+="#{Azul}%s#{Branco} - %s\n"%[i[0].upcase,i[1]]
           end
         end
+        msg="\n%s"%msg
       rescue Exception
         msg="\n#{Vermelho}<#{Branco} CPF NÃO ENCONTRADO #{Vermelho}>#{Branco}\n"
       end
@@ -115,12 +117,31 @@ def cns(logo)
   print "%s%s\n%s<%s APERTE ENTER PARA RETORNAR AO MENU %s>%s"%[logo,msg,Azul,Branco,Azul,Branco]
   return gets.chomp
 end
-# Forma de pegar o endereço de IP.
-begin
-  ip=requests("http://ipwhois.app/json/")["ip"]
-rescue Exception
-  puts "%s!%s VERIFIQUE SUA CONEXÃO À INTERNET %s!%s"%[Vermelho,Branco,Vermelho,Branco]
-  exit
+
+def pix(logo)
+  op=0
+  chaves={"1"=>"cpf","2"=>"telefone","3"=>"email","4"=>"aleatoria","5"=>"cnpj"}
+  while chaves[op].nil?
+    clear()
+    print "%s\n%s===========================%s\n[ %s1%s ] CPF\n[ %s2%s ] Telefone\n[ %s3%s ] Email\n[ %s4%s ] Aleatória\n[ %s5%s ] CNPJ\nEscolha o tipo da Chave %s>>>%s "%[logo,Azul,Branco,Azul,Branco,Azul,Branco,Azul,Branco,Azul,Branco,Azul,Branco,Azul,Verde]
+    op=gets.chomp
+  end
+  clear()
+  print "%s\n%sDigite a Chave que deseja consultar %s>>> "%[logo,Branco,Verde]
+  op_2=gets.chomp
+  begin
+    result=requests("https://kiritinho.dev/api/pix?chave="+op_2+"&type="+chaves[op])
+    begin
+      msg="\n#{Azul}PESSOA CPF#{Branco} - %s\n#{Azul}PESSOA NOME#{Branco} - %s\n#{Azul}PESSOA TIPO - %s\n#{Azul}BANCO CONTA #{Branco}- %s\n#{Azul}BANCO AGÊNCIA #{Branco}- %s\n#{Azul}BANCO NOME#{Branco} - %s\n#{Azul}BANCO TIPO #{Branco}- %s\n" %[result['pessoa']["cpf"],result['pessoa']["nome"],result['pessoa']["tipo"],result['banco']["conta"],result['banco']["agencia"],result['banco']["nome"],result['banco']["tipo"]]
+    rescue Exception
+      msg="\n%s<%s CHAVE PIX NÃO ENCONTRADA %s>%s\n"%[Vermelho,Branco,Vermelho,Branco]
+    end
+  rescue Exception => e
+    msg=e+"\n%s<%s API OFFLINE OU SERVIDOR FORA DO AR %s>%s\n"%[Vermelho,Branco,Vermelho,Branco]
+  end
+  clear()
+  print "%s%s\n%s<%s APERTE ENTER PARA RETORNAR AO MENU %s>%s"%[logo,msg,Azul,Branco,Azul,Branco]
+  return gets.chomp
 end
 
 # Banner.
@@ -130,13 +151,13 @@ logo='  __  __     __     __   __     __  __
   \ \_\ \_\  \ \_\  \ \_\\"\_\   \/\_____\ 
    \/_/\/_/   \/_/   \/_/ \/_/   \/_____/ '
 logo="#{Azul}#{logo}#{Branco}"
-logo+="\n #{Azul}Pix #{Branco}: (21) 97918-0533\nSeu Endereço de IP: %s%s%s\n"%[Azul,ip,Branco]
+logo+="\n #{Azul}Pix #{Branco}: (21) 97918-0533\n"
 
 # Loop para manter o menu rodando.
 Sair=false
 while(Sair==false) do
   clear()
-  print "#{logo}\n#{Azul}===========================#{Branco}\n[ #{Azul}1#{Branco} ] Consulta de Nome\n[ #{Azul}2#{Branco} ] Consulta de CPF\n[ #{Azul}3#{Branco} ] Consulta de CNS\n[ #{Azul}4#{Branco} ] Consulta de Telefone\n#{Azul}==========================#{Branco}\n[ #{Verde}99#{Branco} ] Atualizar\n[ #{Vermelho}00#{Branco} ] Sair\n#{Azul}>>> #{Verde}"
+  print "#{logo}\n#{Azul}===========================#{Branco}\n[ #{Azul}1#{Branco} ] Consulta de Nome\n[ #{Azul}2#{Branco} ] Consulta de CPF\n[ #{Azul}3#{Branco} ] Consulta de CNS\n[ #{Azul}4#{Branco} ] Consulta de Telefone\n[ #{Azul}5#{Branco} ] Consulta de PIX\n#{Azul}==========================#{Branco}\n[ #{Verde}99#{Branco} ] Atualizar\n[ #{Vermelho}00#{Branco} ] Sair\n#{Azul}>>> #{Verde}"
   option=gets.chomp
   clear()
   case option
@@ -148,6 +169,8 @@ while(Sair==false) do
       cns(logo)
     when "4"
       telefone(logo)
+    when "5"
+      pix(logo)
     when "99"
       system "git pull"
     when "00"
